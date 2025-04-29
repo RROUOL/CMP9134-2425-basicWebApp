@@ -1,6 +1,7 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ContactList from '../ContactList';
+import ContactList from './../ContactList';
 
 // Mock data and functions
 const mockContacts = [
