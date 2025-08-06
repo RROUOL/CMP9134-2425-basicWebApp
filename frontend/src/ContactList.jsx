@@ -25,7 +25,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
 
   return (
     <div>
-      <h2>Contacts</h2>
+      <h2>Registered Users</h2>
       <table>
         <thead>
           <tr>

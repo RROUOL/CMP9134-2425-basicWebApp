@@ -7,8 +7,8 @@ const ImageSearch = () => {
 
     const handleSearch = async () => {
         try {
-            // Changed from query to q to match the backend expectation
-            const response = await fetch(`/search_images?q=${query}`);
+            //const response = await fetch(`/search_images?q=${query}`);
+            const response = await fetch(`https://api.openverse.org/v1/images/?q=${query}&page_size=20`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -33,7 +33,7 @@ const ImageSearch = () => {
 
     return (
         <div>
-            <h2>Image Search</h2>
+            <h2>Image Swag?</h2>
             <input
                 type="text"
                 value={query}

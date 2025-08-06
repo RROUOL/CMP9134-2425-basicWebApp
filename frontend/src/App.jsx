@@ -49,14 +49,15 @@ function App() {
           className={`tab-button ${activeTab === 'contacts' ? 'active' : ''}`}
           onClick={() => setActiveTab('contacts')}
         >
-          Contacts
+          Contacts Can I be seen?
         </button>
         <button 
           className={`tab-button ${activeTab === 'images' ? 'active' : ''}`}
           onClick={() => setActiveTab('images')}
         >
-          Image Search
+          Image Search Can this be read?
         </button>
+        Is user logged in?
       </div>
 
       {activeTab === 'contacts' && (
