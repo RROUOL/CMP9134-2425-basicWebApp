@@ -15,3 +15,9 @@ class Contact(db.Model):
             "role": self.role,
         }
     
+# Allows users to see own search history. Could be extended to allow admins to see all searches in the database.
+class SearchHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(80), nullable=False)
+    search_query = db.Column(db.String(255), nullable=False)
+    search_filters = db.Column(db.JSON, nullable=True)

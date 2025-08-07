@@ -42,7 +42,6 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
               <td>{contact.password}</td>
               <td>{contact.role}</td>
               <td>
-                <button onClick={() => updateContact(contact)}>Update</button>
                 <button onClick={() => onDelete(contact.id)}>Delete</button>
               </td>
             </tr>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const ImageSearch = () => {
+// Pass the user info into the ImageSearch page in order to allow for SearchHistoryPage and SearchHistory to work as intended
+const ImageSearch = ({ user }) => {
 
     // Handles queries and other search filters
     const [query, setQuery] = useState("");
@@ -15,6 +16,7 @@ const ImageSearch = () => {
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
     const [page, setPage] = useState(1);
+
 
     const fetchMedia = async (type) => {
         // allows anonymous access to the openverse API
@@ -52,6 +54,14 @@ const ImageSearch = () => {
     const handleSearch = async (e) => {
         e?.preventDefault?.();
         try {
+
+            // abort search if not logged in
+            console.log("User in ImageSearch:", user);
+            if (!user?.username) {
+                alert("Please log in in order to search.");
+                return;
+            }
+
             let mediaResults = [];
 
             if (mediaType === "all") {
@@ -67,6 +77,27 @@ const ImageSearch = () => {
 
             setResults(mediaResults);
             setError(null);
+
+            // On a successful search, save it to SearchHistory, filed under the user's username
+            await fetch("http://127.0.0.1:5000/save_search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userName: user.username,
+                    search_query: query,
+                    search_filters: {
+                    mediaType,
+                    licenseType,
+                    license,
+                    category,
+                    extension,
+                    aspectRatio,
+                    size,
+                    source
+                    }
+                })
+            });
+
         } catch (err) {
             console.error("Error fetching media:", err);
             setError("But nothing could be found. Have you checked your spelling and filters? Or maybe you've been searching too much?");

@@ -4,6 +4,7 @@ import ContactForm from "./ContactForm";
 import ImageSearch from "./ImageSearch";
 import Register from "./RegisterContact"
 import Login from "./LoginContact";
+import SearchHistoryPage from "./SearchHistory";
 import "./App.css";
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
     const data = await response.json();
     setContacts(data.contacts);
   };
-
+``
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentContact({});
@@ -47,6 +48,7 @@ function App() {
   };
 
   const handleLogin = (userInfo) => {
+    console.log(userInfo);      
     setUser(userInfo);
   };
 
@@ -81,8 +83,8 @@ function App() {
         </button>
 
         <button
-          className={`tab-button ${activeTab === 'images' ? 'active' : ''}`}
-          onClick={() => setActiveTab('images')}
+          className={`tab-button ${activeTab === 'searches' ? 'active' : ''}`}
+          onClick={() => setActiveTab('searches')}
         >
           My Searches
         </button>
@@ -118,9 +120,16 @@ function App() {
         </div>
       )}
 
+      {activeTab === 'searches' && (
+        <div className="search-history-tab">
+          <SearchHistoryPage user={user} />
+        </div>
+      )}
+
+
       {activeTab === 'images' && (
         <div className="images-tab">
-          <ImageSearch />
+          <ImageSearch user={user} />
         </div>
       )}
     </>
