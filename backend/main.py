@@ -14,17 +14,21 @@ def get_contacts():
 
 @app.route("/create_contact", methods=["POST"])
 def create_contact():
-    first_name = request.json.get("firstName")
-    last_name = request.json.get("lastName")
-    email = request.json.get("email")
+    user_name = request.json.get("username")
+    pass_word = request.json.get("password")
+    role = request.json.get("role")
 
-    if not first_name or not last_name or not email:
+    if not user_name or not pass_word or not role:
         return (
-            jsonify({"message": "You must include the first name, last name and email"}),
+            jsonify({"message": "You must include the username, password and role"}),
             400,
         )
+    
+    existing = Contact.query.filter_by(user_name=user_name).first()
+    if existing:
+        return jsonify({"message": "Username already exists"}), 400
 
-    new_contact = Contact(first_name=first_name, last_name=last_name, email=email)
+    new_contact = Contact(user_name=user_name, pass_word=pass_word, role=role)
     try:
         db.session.add(new_contact)
         db.session.commit()
@@ -41,9 +45,9 @@ def update_contact(user_id):
         return jsonify({"message": "User not found"}), 404
 
     data = request.json
-    contact.first_name = data.get("firstName", contact.first_name)
-    contact.last_name = data.get("lastName", contact.last_name)
-    contact.email = data.get("email", contact.email)
+    contact.user_name = data.get("username", contact.user_name)
+    contact.pass_word = data.get("password", contact.pass_word)
+    contact.role = data.get("role", contact.role)
 
     db.session.commit()
 
@@ -100,6 +104,29 @@ def search_images():
     )
     
     return jsonify(results)
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    user_name = data.get("username")
+    pass_word = data.get("password")
+
+    if not user_name or not pass_word:
+        return jsonify({"message": "Username and password required!"}), 400
+
+    user = Contact.query.filter_by(user_name=user_name).first()
+
+    if not user or user.pass_word != pass_word:
+        return jsonify({"message": "Incorrect username or password!"}), 401
+
+    return jsonify({
+        "message": "Login successful",
+        "user": {
+            "id": user.id,
+            "username": user.user_name,
+            "role": user.role
+        }
+    }), 200
 
 
 

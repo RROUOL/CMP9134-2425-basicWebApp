@@ -13,9 +13,9 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
     e.preventDefault();
 
     const data = {
-      firstName,
-      lastName,
-      email,
+      username,
+      password,
+      role,
     };
     const url =
       "http://127.0.0.1:5000/" +
@@ -40,33 +40,31 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label htmlFor="firstName">First Maadame:</label>
+        <label htmlFor="username">Username: </label>
         <input
           type="text"
-          id="firstName"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          id="username"
+          value={username}
+          onChange={(e) => setUserName(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="lastName">Last Name:</label>
+        <label htmlFor="password">Password: </label>
         <input
           type="text"
-          id="lastName"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="text"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <label htmlFor="role">Role: </label>
+        <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
       </div>
 
       <button type="submit">{updating ? "Update" : "Create"}</button>
